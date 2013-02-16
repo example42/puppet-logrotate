@@ -2,12 +2,14 @@
 #
 # This has been retrieved from:
 # https://github.com/rodjek/puppet-logrotate
-# and adpated to Example42 NextGen Layout
+# and adapted to Example42 NextGen Layout
 #
 # namevar         - The String name of the rule.
 # path            - The path String to the logfile(s) to be rotated.
 # ensure          - The desired state of the logrotate rule as a String.  Valid
 #                   values are 'absent' and 'present' (default: 'present').
+# template        - Sets an alternative template to use as content for rule file
+#                   Default: logrotate/rule.erb
 # compress        - A Boolean value specifying whether the rotated logs should
 #                   be compressed (optional).
 # compresscmd     - The command String that should be executed to compress the
@@ -111,43 +113,44 @@
 #     postrotate   => '/etc/init.d/nginx restart',
 #   }
 define logrotate::rule(
-   $path            = 'undef',
-   $ensure          = 'present',
-   $compress        = 'undef',
-   $compresscmd     = 'undef',
-   $compressext     = 'undef',
-   $compressoptions = 'undef',
-   $copy            = 'undef',
-   $copytruncate    = 'undef',
-   $create          = 'undef',
-   $create_mode     = 'undef',
-   $create_owner    = 'undef',
-   $create_group    = 'undef',
-   $dateext         = 'undef',
-   $dateformat      = 'undef',
-   $delaycompress   = 'undef',
-   $extension       = 'undef',
-   $ifempty         = 'undef',
-   $mail            = 'undef',
-   $mailfirst       = 'undef',
-   $maillast        = 'undef',
-   $maxage          = 'undef',
-   $minsize         = 'undef',
-   $missingok       = 'undef',
-   $olddir          = 'undef',
-   $postrotate      = 'undef',
-   $prerotate       = 'undef',
-   $firstaction     = 'undef',
-   $lastaction      = 'undef',
-   $rotate          = 'undef',
-   $rotate_every    = 'undef',
-   $size            = 'undef',
-   $sharedscripts   = 'undef',
-   $shred           = 'undef',
-   $shredcycles     = 'undef',
-   $start           = 'undef',
-   $uncompresscmd   = 'undef'
-   ) {
+  $path            = 'undef',
+  $ensure          = 'present',
+  $template        = 'logrotate/rule.erb',
+  $compress        = 'undef',
+  $compresscmd     = 'undef',
+  $compressext     = 'undef',
+  $compressoptions = 'undef',
+  $copy            = 'undef',
+  $copytruncate    = 'undef',
+  $create          = 'undef',
+  $create_mode     = 'undef',
+  $create_owner    = 'undef',
+  $create_group    = 'undef',
+  $dateext         = 'undef',
+  $dateformat      = 'undef',
+  $delaycompress   = 'undef',
+  $extension       = 'undef',
+  $ifempty         = 'undef',
+  $mail            = 'undef',
+  $mailfirst       = 'undef',
+  $maillast        = 'undef',
+  $maxage          = 'undef',
+  $minsize         = 'undef',
+  $missingok       = 'undef',
+  $olddir          = 'undef',
+  $postrotate      = 'undef',
+  $prerotate       = 'undef',
+  $firstaction     = 'undef',
+  $lastaction      = 'undef',
+  $rotate          = 'undef',
+  $rotate_every    = 'undef',
+  $size            = 'undef',
+  $sharedscripts   = 'undef',
+  $shred           = 'undef',
+  $shredcycles     = 'undef',
+  $start           = 'undef',
+  $uncompresscmd   = 'undef'
+  ) {
 
   #############################################################################
   # SANITY CHECK VALUES
@@ -373,7 +376,7 @@ define logrotate::rule(
   #############################################################################
   #
 
-  include logrotate
+  require logrotate
 
   $real_ensure = $logrotate::bool_absent ? {
     true  => 'absent'
@@ -382,11 +385,14 @@ define logrotate::rule(
 
   file { "${logrotate::config_dir}/${name}":
     ensure  => $real_ensure,
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0444',
-    content => template('logrotate/rule.erb'),
+    path    => "${logrotate::config_dir}/${name}",
+    mode    => $logrotate::config_file_mode,
+    owner   => $logrotate::config_file_owner,
+    group   => $logrotate::config_file_group,
     require => Class['logrotate'],
+    content => template($template),
+    audit   => $logrotate::manage_audit,
+    noops   => $logrotate::noops,
   }
 
 }
