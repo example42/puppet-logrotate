@@ -1,0 +1,78 @@
+= Puppet module: logrotate
+
+This is a Puppet module for logrotate
+It provides only package installation and file configuration.
+
+Based on Example42 layouts by Alessandro Franceschi / Lab42
+
+Official site: http://www.example42.com
+
+Official git repository: http://github.com/example42/puppet-logrotate
+
+Released under the terms of Apache 2 License.
+
+This module requires the presence of Example42 Puppi module in your modulepath.
+
+
+== USAGE - Basic management
+
+* Install logrotate with default settings
+
+        class { 'logrotate': }
+
+* Install a specific version of logrotate package
+
+        class { 'logrotate':
+          version => '1.0.1',
+        }
+
+* Remove logrotate resources
+
+        class { 'logrotate':
+          absent => true
+        }
+
+* Enable auditing without without making changes on existing logrotate configuration *files*
+
+        class { 'logrotate':
+          audit_only => true
+        }
+
+* Module dry-run: Do not make any change on *all* the resources provided by the module
+
+        class { 'standard42':
+          noops => true
+        }
+
+
+== USAGE - Overrides and Customizations
+* Use custom sources for main config file 
+
+        class { 'logrotate':
+          source => [ "puppet:///modules/example42/logrotate/logrotate.conf-${hostname}" , "puppet:///modules/example42/logrotate/logrotate.conf" ], 
+        }
+
+
+* Use custom source directory for the whole configuration dir
+
+        class { 'logrotate':
+          source_dir       => 'puppet:///modules/example42/logrotate/conf/',
+          source_dir_purge => false, # Set to true to purge any existing file not present in $source_dir
+        }
+
+* Use custom template for main config file. Note that template and source arguments are alternative. 
+
+        class { 'logrotate':
+          template => 'example42/logrotate/logrotate.conf.erb',
+        }
+
+* Automatically include a custom subclass
+
+        class { 'logrotate':
+          my_class => 'example42::my_logrotate',
+        }
+
+
+== CONTINUOUS TESTING
+
+Travis {<img src="https://travis-ci.org/example42/puppet-logrotate.png?branch=master" alt="Build Status" />}[https://travis-ci.org/example42/puppet-logrotate]
