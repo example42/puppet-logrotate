@@ -1,0 +1,19 @@
+# File Managed by Puppet
+
+<% log.each do |lo| -%>
+<%= lo %>
+<% end -%>{
+<% options.each do |opt| -%>
+	<%= opt %>
+<% end -%>
+<% if prerotate != "NONE" -%>
+	prerotate 
+		<%= prerotate %> 
+	endscript
+<% end -%>
+<% if postrotate != "NONE" -%>
+	postrotate 
+		<%= postrotate %> 
+	endscript 
+<% end -%>
+}
