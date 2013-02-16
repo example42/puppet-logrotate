@@ -10,11 +10,16 @@ Official site: http://www.example42.com
 Official git repository: http://github.com/example42/puppet-logrotate
 
 The logrotate::rule define has been adapted from:
+
 https://github.com/rodjek/puppet-logrotate/blob/master/templates/etc/logrotate.d/rule.erb
+
 Released with this licence: https://github.com/rodjek/puppet-logrotate/blob/master/LICENSE
 
+
 The logrotate::conf define has been adapted from:
+
 https://github.com/arioch/puppet-logrotate/blob/master/manifests/file.pp
+
 Released with this license: https://github.com/arioch/puppet-logrotate/blob/master/LICENSE
 
 Released under the terms of Apache 2 License.
@@ -32,11 +37,11 @@ You can configure the single logrotate configuration snippets in several ways:
 
 * You can populate the whole logrotate.d with the source_dir parameter
 
-* You can create a single configuration snippet with these altenative defines:
+* You can create a single configuration snippet with these alternative defines:
 
   * logrotate::rule - Create snippets based of a lot parameters for each option
 
-  * logrotate::conf - Create snippets based of a configrable template and the provided options
+  * logrotate::conf - Create snippets based of a configurable template and the provided options
 
   * logrotate::file - Provide directly a custom file from the source you want
 
@@ -57,7 +62,7 @@ All the methods are alternative but can cohexist, it's up to you to use the alte
           version => '1.0.1',
         }
 
-* Remove logrotate resources
+* Remove logrotate resources (it automatically removes also the files provided by the logrotate::rule logrotate::conf and logrotate::file defines
 
         class { 'logrotate':
           absent => true
@@ -69,9 +74,9 @@ All the methods are alternative but can cohexist, it's up to you to use the alte
           audit_only => true
         }
 
-* Module dry-run: Do not make any change on *all* the resources provided by the module
+* Module dry-run: Do not make any change on *all* the resources provided by the module. It applies also to logrotate::rule logrotate::conf and logrotate::file defines
 
-        class { 'standard42':
+        class { 'logrotate':
           noops => true
         }
 
@@ -104,6 +109,3 @@ All the methods are alternative but can cohexist, it's up to you to use the alte
         }
 
 
-== CONTINUOUS TESTING
-
-Travis {<img src="https://travis-ci.org/example42/puppet-logrotate.png?branch=master" alt="Build Status" />}[https://travis-ci.org/example42/puppet-logrotate]
