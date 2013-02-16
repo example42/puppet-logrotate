@@ -1,4 +1,8 @@
-# Public: Configure logrotate to rotate a logfile.
+# Define logrotate::rule
+#
+# This has been retrieved from:
+# https://github.com/rodjek/puppet-logrotate
+# and adpated to Example42 NextGen Layout
 #
 # namevar         - The String name of the rule.
 # path            - The path String to the logfile(s) to be rotated.
@@ -107,43 +111,43 @@
 #     postrotate   => '/etc/init.d/nginx restart',
 #   }
 define logrotate::rule(
-                        $path            = 'undef',
-                        $ensure          = 'present',
-                        $compress        = 'undef',
-                        $compresscmd     = 'undef',
-                        $compressext     = 'undef',
-                        $compressoptions = 'undef',
-                        $copy            = 'undef',
-                        $copytruncate    = 'undef',
-                        $create          = 'undef',
-                        $create_mode     = 'undef',
-                        $create_owner    = 'undef',
-                        $create_group    = 'undef',
-                        $dateext         = 'undef',
-                        $dateformat      = 'undef',
-                        $delaycompress   = 'undef',
-                        $extension       = 'undef',
-                        $ifempty         = 'undef',
-                        $mail            = 'undef',
-                        $mailfirst       = 'undef',
-                        $maillast        = 'undef',
-                        $maxage          = 'undef',
-                        $minsize         = 'undef',
-                        $missingok       = 'undef',
-                        $olddir          = 'undef',
-                        $postrotate      = 'undef',
-                        $prerotate       = 'undef',
-                        $firstaction     = 'undef',
-                        $lastaction      = 'undef',
-                        $rotate          = 'undef',
-                        $rotate_every    = 'undef',
-                        $size            = 'undef',
-                        $sharedscripts   = 'undef',
-                        $shred           = 'undef',
-                        $shredcycles     = 'undef',
-                        $start           = 'undef',
-                        $uncompresscmd   = 'undef'
-                        ) {
+   $path            = 'undef',
+   $ensure          = 'present',
+   $compress        = 'undef',
+   $compresscmd     = 'undef',
+   $compressext     = 'undef',
+   $compressoptions = 'undef',
+   $copy            = 'undef',
+   $copytruncate    = 'undef',
+   $create          = 'undef',
+   $create_mode     = 'undef',
+   $create_owner    = 'undef',
+   $create_group    = 'undef',
+   $dateext         = 'undef',
+   $dateformat      = 'undef',
+   $delaycompress   = 'undef',
+   $extension       = 'undef',
+   $ifempty         = 'undef',
+   $mail            = 'undef',
+   $mailfirst       = 'undef',
+   $maillast        = 'undef',
+   $maxage          = 'undef',
+   $minsize         = 'undef',
+   $missingok       = 'undef',
+   $olddir          = 'undef',
+   $postrotate      = 'undef',
+   $prerotate       = 'undef',
+   $firstaction     = 'undef',
+   $lastaction      = 'undef',
+   $rotate          = 'undef',
+   $rotate_every    = 'undef',
+   $size            = 'undef',
+   $sharedscripts   = 'undef',
+   $shred           = 'undef',
+   $shredcycles     = 'undef',
+   $start           = 'undef',
+   $uncompresscmd   = 'undef'
+   ) {
 
   #############################################################################
   # SANITY CHECK VALUES
@@ -369,14 +373,20 @@ define logrotate::rule(
   #############################################################################
   #
 
-  include logrotate::base
+  include logrotate
 
-  file { "/etc/logrotate.d/${name}":
-    ensure  => $ensure,
+  $real_ensure = $logrotate::bool_absent ? {
+    true  => 'absent'
+    false => $ensure,
+  }
+
+  file { "${logrotate::config_dir}/${name}":
+    ensure  => $real_ensure,
     owner   => 'root',
     group   => 'root',
     mode    => '0444',
-    content => template('logrotate/etc/logrotate.d/rule.erb'),
-    require => Class['logrotate::base'],
+    content => template('logrotate/rule.erb'),
+    require => Class['logrotate'],
   }
+
 }
