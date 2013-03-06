@@ -379,7 +379,7 @@ define logrotate::rule(
   require logrotate
 
   $real_ensure = $logrotate::bool_absent ? {
-    true  => 'absent'
+    true  => 'absent',
     false => $ensure,
   }
 
