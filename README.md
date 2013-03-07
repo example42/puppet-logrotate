@@ -1,4 +1,4 @@
-= Puppet module: logrotate
+# Puppet module: logrotate
 
 This is a Puppet module for logrotate
 It provides only package installation and file configuration.
@@ -27,7 +27,7 @@ Released under the terms of Apache 2 License.
 This module requires the presence of Example42 Puppi module in your modulepath.
 
 
-== USAGE - Module specific 
+## USAGE - Module specific 
 
 This module provides different options on how to manage logrotate configuration files.
 
@@ -50,7 +50,7 @@ Refer to the documentation in the single defines for details on the option's usa
 All the methods are alternative but can cohexist, it's up to you to use the alternative that better fits your needs.
 
 
-== USAGE - Basic management
+## USAGE - Basic management
 
 * Install logrotate with default settings
 
@@ -81,7 +81,7 @@ All the methods are alternative but can cohexist, it's up to you to use the alte
         }
 
 
-== USAGE - Overrides and Customizations
+## USAGE - Overrides and Customizations
 * Use custom sources for main config file 
 
         class { 'logrotate':
