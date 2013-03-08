@@ -109,3 +109,5 @@ All the methods are alternative but can cohexist, it's up to you to use the alte
         }
 
 
+
+[![Build Status](https://travis-ci.org/example42/puppet-logrotate.png?branch=master)](https://travis-ci.org/example42/puppet-logrotate)
