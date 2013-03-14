@@ -41,11 +41,11 @@ define logrotate::file (
   }
 
   $real_ensure = $logrotate::bool_absent ? {
-    true  => 'absent'
+    true  => 'absent',
     false => $ensure,
   }
 
-  file { "logrotate_file_$name":
+  file { "logrotate_file_${name}":
     ensure  => $real_ensure,
     path    => "${logrotate::config_dir}/${name}",
     mode    => $logrotate::config_file_mode,
@@ -55,7 +55,7 @@ define logrotate::file (
     source  => $manage_file_source,
     content => $manage_file_content,
     audit   => $logrotate::manage_audit,
-    noops   => $logrotate::noops,
+    noop    => $logrotate::noops,
   }
 
 }
