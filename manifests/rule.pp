@@ -392,7 +392,7 @@ define logrotate::rule(
     require => Class['logrotate'],
     content => template($template),
     audit   => $logrotate::manage_audit,
-    noop    => $logrotate::bool_noops,
+    noop    => $logrotate::noops,
   }
 
 }
