@@ -50,7 +50,7 @@ define logrotate::conf (
     require => Package['logrotate'],
     content => template($template),
     audit   => $logrotate::manage_audit,
-    noops   => $logrotate::noops,
+    noop    => $logrotate::noops,
   }
 
 }
