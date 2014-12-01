@@ -99,7 +99,8 @@ class logrotate (
   $noops               = params_lookup( 'noops' ),
   $package             = params_lookup( 'package' ),
   $config_dir          = params_lookup( 'config_dir' ),
-  $config_file         = params_lookup( 'config_file' )
+  $config_file         = params_lookup( 'config_file' ),
+  $files               = params_lookup( 'files' )
   ) inherits logrotate::params {
 
   $config_file_mode=$logrotate::params::config_file_mode
@@ -159,6 +160,12 @@ class logrotate (
     replace => $logrotate::manage_file_replace,
     audit   => $logrotate::manage_audit,
     noop    => $logrotate::noops,
+  }
+
+  ### Create instances for integration with Hiera
+  if $files != {} {
+    validate_hash($files)
+    create_resources(logrotate::file, $files)
   }
 
   # The whole logrotate configuration directory can be recursively overriden

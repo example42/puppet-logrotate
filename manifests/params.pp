@@ -51,5 +51,6 @@ class logrotate::params {
   $absent = false
   $audit_only = false
   $noops = undef
+  $files = {}
 
 }
