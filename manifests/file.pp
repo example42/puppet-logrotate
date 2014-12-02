@@ -28,7 +28,7 @@ define logrotate::file (
   $content = '' ,
   $ensure  = present ) {
 
-  require logrotate
+  include logrotate
 
   $manage_file_source = $source ? {
     ''        => undef,
