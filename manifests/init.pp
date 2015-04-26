@@ -144,8 +144,8 @@ class logrotate (
 
   ### Managed resources
   package { $logrotate::package:
-    ensure  => $logrotate::manage_package,
-    noop    => $logrotate::noops,
+    ensure => $logrotate::manage_package,
+    noop   => $logrotate::noops,
   }
 
   file { 'logrotate.conf':
