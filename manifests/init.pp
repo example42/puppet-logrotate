@@ -169,7 +169,7 @@ class logrotate (
   }
 
   # The whole logrotate configuration directory can be recursively overriden
-  if $logrotate::source_dir {
+  if $logrotate::source_dir != '' {
     file { 'logrotate.dir':
       ensure  => directory,
       path    => $logrotate::config_dir,
