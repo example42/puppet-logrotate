@@ -96,7 +96,6 @@ class logrotate (
   $version             = params_lookup( 'version' ),
   $absent              = params_lookup( 'absent' ),
   $audit_only          = params_lookup( 'audit_only' , 'global' ),
-  $noops               = params_lookup( 'noops' ),
   $package             = params_lookup( 'package' ),
   $config_dir          = params_lookup( 'config_dir' ),
   $config_file         = params_lookup( 'config_file' ),
@@ -145,7 +144,6 @@ class logrotate (
   ### Managed resources
   package { $logrotate::package:
     ensure => $logrotate::manage_package,
-    noop   => $logrotate::noops,
   }
 
   file { 'logrotate.conf':
@@ -159,7 +157,6 @@ class logrotate (
     content => $logrotate::manage_file_content,
     replace => $logrotate::manage_file_replace,
     audit   => $logrotate::manage_audit,
-    noop    => $logrotate::noops,
   }
 
   ### Create instances for integration with Hiera
@@ -181,7 +178,6 @@ class logrotate (
       force   => $logrotate::bool_source_dir_purge,
       replace => $logrotate::manage_file_replace,
       audit   => $logrotate::manage_audit,
-      noop    => $logrotate::noops,
     }
   }
 
