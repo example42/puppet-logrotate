@@ -55,7 +55,6 @@ define logrotate::file (
     source  => $manage_file_source,
     content => $manage_file_content,
     audit   => $logrotate::manage_audit,
-    noop    => $logrotate::noops,
   }
 
 }
