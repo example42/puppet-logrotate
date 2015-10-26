@@ -99,7 +99,8 @@ class logrotate (
   $package             = params_lookup( 'package' ),
   $config_dir          = params_lookup( 'config_dir' ),
   $config_file         = params_lookup( 'config_file' ),
-  $files               = params_lookup( 'files' )
+  $files               = params_lookup( 'files' ),
+  $rules               = params_lookup( 'rules' )
   ) inherits logrotate::params {
 
   $config_file_mode=$logrotate::params::config_file_mode
@@ -163,6 +164,10 @@ class logrotate (
   if $files != {} {
     validate_hash($files)
     create_resources(logrotate::file, $files)
+  }
+  if $rules != {} {
+    validate_hash($rules)
+    create_resources(logrotate::rule, $rules)
   }
 
   # The whole logrotate configuration directory can be recursively overriden

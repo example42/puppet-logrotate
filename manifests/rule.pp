@@ -404,8 +404,6 @@ define logrotate::rule(
   #############################################################################
   #
 
-  require logrotate
-
   $real_ensure = $logrotate::bool_absent ? {
     true  => 'absent',
     false => $ensure,
@@ -417,7 +415,6 @@ define logrotate::rule(
     mode    => $logrotate::config_file_mode,
     owner   => $logrotate::config_file_owner,
     group   => $logrotate::config_file_group,
-    require => Class['logrotate'],
     content => template($template),
     audit   => $logrotate::manage_audit,
   }
