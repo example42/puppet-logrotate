@@ -188,7 +188,7 @@ class logrotate (
 
 
   ### Include custom class if $my_class is set
-  if $logrotate::my_class {
+  if $logrotate::my_class and $logrotate::my_class != '' {
     include $logrotate::my_class
   }
 
